@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const pool = require('../js/database'); // Importing the pool from database.js
+const connection = require('../js/database'); 
 const app = express();
 
 const PORT = 3001;
@@ -24,7 +24,7 @@ app.post('/register', (req, res) => {
         return res.status(400).send('All fields are required.');
     }
 
-    pool.query(query, [username, email, password], (err, result) => {
+    connection.query(query, [username, email, password], (err, result) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Error saving data to the database.');
@@ -48,7 +48,7 @@ app.post('/login', (req, res) => {
           AND password = ?
     `;
 
-    pool.query(query, [username, username, password], (err, results) => {
+    connection.query(query, [username, username, password], (err, results) => {
         if (err) {
             console.error('Error executing query:', err);
             return res.status(500).send('Internal server error.');
@@ -62,7 +62,7 @@ app.post('/login', (req, res) => {
     });
 });
 
-/// Endpoint untuk menambahkan film ke table Wishlist
+// Endpoint untuk menambahkan film ke table Wishlist
 app.post('/add-to-wishlist', (req, res) => {
     const { id_movie, username } = req.body;
 
@@ -71,7 +71,7 @@ app.post('/add-to-wishlist', (req, res) => {
     }
 
     const checkQuery = 'SELECT * FROM Wishlist WHERE id_movie = ? AND id_akun = ?';
-    pool.query(checkQuery, [id_movie, username], (err, results) => {
+    connection.query(checkQuery, [id_movie, username], (err, results) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).json({ message: 'Error memeriksa data di database.' });
@@ -84,7 +84,7 @@ app.post('/add-to-wishlist', (req, res) => {
 
         // Jika belum ada, lakukan INSERT
         const insertQuery = 'INSERT INTO Wishlist (id_movie, id_akun) VALUES (?, ?)';
-        pool.query(insertQuery, [id_movie, username], (err, result) => {
+        connection.query(insertQuery, [id_movie, username], (err, result) => {
             if (err) {
                 console.error('Database error:', err);
                 return res.status(500).json({ message: 'Error memasukkan data ke database.' });
@@ -94,19 +94,15 @@ app.post('/add-to-wishlist', (req, res) => {
     });
 });
 
-
-
 // masukin data ke wishlist
 app.get('/wishlist', (req, res) => {
-    // Assuming the username is passed as a query parameter
     const { username } = req.query;
 
     if (!username) {
         return res.status(400).send('Username is required');
     }
 
-    // disini ia cuma bakal ngirim data movie nya jika dan hanya jika username nya sama atau intinya cuma ngirim data film sesuai username
-    pool.query(
+    connection.query(
         'SELECT id_movie FROM Wishlist WHERE id_akun = ?',
         [username],
         (err, results) => {
@@ -115,7 +111,6 @@ app.get('/wishlist', (req, res) => {
                 return res.status(500).send('Failed to fetch wishlist');
             }
 
-            //jika user tidak ada wishlist, ini output nyaaa
             if (results.length === 0) {
                 return res.status(404).send('No movies found in wishlist for this user');
             }
@@ -125,7 +120,6 @@ app.get('/wishlist', (req, res) => {
     );
 });
 
-
 // hapus wishlist
 app.delete('/wishlist', (req, res) => {
     const { id_movie, username } = req.body;
@@ -134,7 +128,7 @@ app.delete('/wishlist', (req, res) => {
         return res.status(400).send('Movie ID and Username are required.');
     }
 
-    pool.query(
+    connection.query(
         'DELETE FROM Wishlist WHERE id_movie = ? AND id_akun = ?',
         [id_movie, username],
         (err, result) => {
@@ -143,7 +137,6 @@ app.delete('/wishlist', (req, res) => {
                 return res.status(500).send('Failed to remove movie from wishlist');
             }
 
-            // di check misal ada row yang terdampak
             if (result.affectedRows > 0) {
                 res.status(200).json({ message: 'Movie removed from wishlist!' });
             } else {
@@ -162,7 +155,7 @@ app.post("/addPost", (req, res) => {
     }
 
     const query = "INSERT INTO Community (comment) VALUES (?)";
-    pool.query(query, [comment], (err, result) => {
+    connection.query(query, [comment], (err, result) => {
         if (err) {
             console.error("Error inserting comment:", err);
             return res.status(500).json({ error: "Database error" });
@@ -171,10 +164,9 @@ app.post("/addPost", (req, res) => {
     });
 });
 
-// ngambil
 app.get("/getPosts", (req, res) => {
     const query = "SELECT * FROM Community";
-    pool.query(query, (err, results) => {
+    connection.query(query, (err, results) => {
         if (err) {
             console.error("Error fetching posts:", err);
             return res.status(500).json({ error: "Database error" });
