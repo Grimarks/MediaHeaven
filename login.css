@@ -1,0 +1,110 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: linear-gradient(to left top, #ff0000, #ff4b3c, #ff7267, #ff958e, #f9b5b3, #ddafae, #c0a8a8, #a3a1a1, #787676, #4f4e4e, #292929, #000000);
+    color: white;
+    height: 100%;
+    width: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+}
+
+.navigation1{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    padding: 10px;
+}
+
+
+.navigation1 a,
+.navigation1 button{
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: black;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.navigation1 a:hover,
+.navigation1 button:hover{
+    background-color: #b7b7b7;
+    color: #000;
+}
+
+.active-link {
+    background-color: #b7b7b7;
+    color: #000;
+}
+
+.container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 670px; /* Membesarkan lebar container */
+    text-align: center;
+    margin: 250px auto; /* Jarak atas */
+}
+
+.container h2 {
+    margin-bottom: 20px;
+    color: #000;
+}
+
+.container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.container label {
+    margin-bottom: 5px;
+    color: #000;
+}
+
+.container input[type="text"],
+.container input[type="password"] {
+    width: 100%;  /* Memastikan input field tetap lebar 100% */
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #000;
+}
+
+.container a {
+    color: blue;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.container button {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.container button:hover {
+    background-color: #444;
+}

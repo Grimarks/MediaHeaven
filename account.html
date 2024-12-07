@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Account</title>
+    <link rel="stylesheet" href="../css/account.css">
+</head>
+<body>
+<header>
+    <div class="logo">
+        <img src="../foto/Logo4.png" alt="Logo">
+    </div>
+    <nav class="navigation2" >
+        <a href="index.html">Movies</a>
+        <a href="community.html">Community</a>
+        <a href="wishlist.html">Wishlist</a>
+        <a href="account.html">
+            <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path opacity="0.4" d="M12 22.01C17.5228 22.01 22 17.5329 22 12.01C22 6.48716 17.5228 2.01001 12 2.01001C6.47715 2.01001 2 6.48716 2 12.01C2 17.5329 6.47715 22.01 12 22.01Z" fill="#292D32"></path>
+                    <path d="M12 6.93994C9.93 6.93994 8.25 8.61994 8.25 10.6899C8.25 12.7199 9.84 14.3699 11.95 14.4299C11.98 14.4299 12.02 14.4299 12.04 14.4299C12.06 14.4299 12.09 14.4299 12.11 14.4299C12.12 14.4299 12.13 14.4299 12.13 14.4299C14.15 14.3599 15.74 12.7199 15.75 10.6899C15.75 8.61994 14.07 6.93994 12 6.93994Z" fill="#292D32"></path>
+                    <path d="M18.7807 19.36C17.0007 21 14.6207 22.01 12.0007 22.01C9.3807 22.01 7.0007 21 5.2207 19.36C5.4607 18.45 6.1107 17.62 7.0607 16.98C9.7907 15.16 14.2307 15.16 16.9407 16.98C17.9007 17.62 18.5407 18.45 18.7807 19.36Z" fill="#292D32"></path>
+                </g>
+            </svg>
+        </a>
+    </nav>
+</header>
+
+<div class="profile-container">
+    <div class="profile-pic"></div>
+<!--    username, username akan terganti tergantung siapa yang login-->
+    <h1>Parel</h1>
+    <div class="stats">
+        <div>
+            <span>0</span>
+            FILMS
+        </div>
+    </div>
+    <a class="edit-profile" href="#">EDIT PROFILE</a>
+    <button id="logout">Logout</button>
+</div>
+
+<div class="section">
+    <h2>Favorite Media</h2>
+    <div class="media-grid">
+        <div class="media-item">
+            <img alt="Favorite Media 1" src="https://storage.googleapis.com/a1aa/image/K2t8BEjUr5YOJRreAX1jgaQc7wQe7QsvpSNaJCw3ff3edVPeE.jpg"/>
+        </div>
+        <div class="media-item">
+            <img alt="Favorite Media 2" src="https://storage.googleapis.com/a1aa/image/g6BUewEyfwqkyEi2O1CstHPJGzA6Qxv2x9vZmzHbMJRlr6xTA.jpg"/>
+        </div>
+        <div class="media-item">
+            <img alt="Favorite Media 3" src="https://storage.googleapis.com/a1aa/image/TReMiZK2xHXfkkCqLTJj1zbWhPYHBTADYfF5BJk77M8QX1jnA.jpg"/>
+        </div>
+        <div class="media-item">
+            <img alt="Favorite Media 4" src="https://storage.googleapis.com/a1aa/image/UbmybC7pNaJJHVTxcqHoNj1Nmhc7eUvpJWZDxqtKuB20V94JA.jpg"/>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Recent Activity</h2>
+    <div class="media-grid">
+        <div class="media-item">
+            <img alt="Recent Activity 1" src="https://storage.googleapis.com/a1aa/image/HAI9nHnzohIRKReuiClot2xbsSsUzpaTLu7GDCYFsDJzV94JA.jpg"/>
+        </div>
+        <div class="media-item">
+            <img alt="Recent Activity 2" src="https://storage.googleapis.com/a1aa/image/9P52CaAlCN6dOtwnESlMGiahLqe2b6IR0I9MQf7UVOhjr6xTA.jpg"/>
+        </div>
+        <div class="media-item">
+            <img alt="Recent Activity 3" src="https://storage.googleapis.com/a1aa/image/h0REt3hnXFIIFBwlzTnbL3I0qQ81Nuim7gQzpnS7MSfzV94JA.jpg"/>
+        </div>
+        <div class="media-item">
+            <img alt="Recent Activity 4" src="https://storage.googleapis.com/a1aa/image/rRfUsHTp6rUmCKfxICJgrMmM2deEfVxKFhNiv1tCbo21uqHPB.jpg"/>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const username = localStorage.getItem('username');
+        const navigation2 = document.querySelector('.navigation2');
+
+        if (username) {
+            document.querySelector('.profile-container h1').textContent = username;
+            navigation2.style.display = 'flex';
+        } else {
+            alert('You are not logged in.');
+            window.location.href = 'login.html';
+        }
+    });
+
+    // Logout
+    const logoutButton = document.getElementById('logout');
+    logoutButton.addEventListener('click', () => {
+        localStorage.removeItem('username');
+        localStorage.setItem('activeNavigation', 'navigation1');
+        window.location.href = 'login.html';
+    });
+</script>
+
+
+</body>
+</html>
