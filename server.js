@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const connection = require('database.js'); 
+const connection = require('../database.js'); 
 const app = express();
 
 const PORT = 3001;
