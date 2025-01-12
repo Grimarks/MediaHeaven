@@ -30,8 +30,16 @@ app.post('/register', (req, res) => {
             return res.status(500).send('Error saving data to the database.');
         }
         res.status(200).send('Registration successful!');
+        
+        // Tutup koneksi
+        connection.end((endErr) => {
+            if (endErr) {
+                console.error('Error closing connection:', endErr);
+            }
+        });
     });
 });
+
 
 // Login endpoint
 app.post('/login', (req, res) => {
@@ -102,23 +110,33 @@ app.get('/wishlist', (req, res) => {
         return res.status(400).send('Username is required');
     }
 
-    connection.query(
-        'SELECT id_movie FROM Wishlist WHERE id_akun = ?',
-        [username],
-        (err, results) => {
+    // Ambil id_akun berdasarkan username
+    const queryAkun = 'SELECT id_akun FROM Akun WHERE username = ?';
+    connection.query(queryAkun, [username], (err, results) => {
+        if (err) {
+            console.error('Error fetching user:', err);
+            return res.status(500).send('Failed to fetch user');
+        }
+
+        if (results.length === 0) {
+            return res.status(404).send('User not found');
+        }
+
+        const id_akun = results[0].id_akun;
+
+        // Ambil wishlist berdasarkan id_akun
+        const queryWishlist = 'SELECT id_movie FROM Wishlist WHERE id_akun = ?';
+        connection.query(queryWishlist, [id_akun], (err, results) => {
             if (err) {
                 console.error('Error fetching wishlist:', err);
                 return res.status(500).send('Failed to fetch wishlist');
             }
 
-            if (results.length === 0) {
-                return res.status(404).send('No movies found in wishlist for this user');
-            }
-
             res.json(results);
-        }
-    );
+        });
+    });
 });
+
 
 // hapus wishlist
 app.delete('/wishlist', (req, res) => {
